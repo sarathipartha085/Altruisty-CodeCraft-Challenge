@@ -54,3 +54,96 @@ Round 3
   Strength level of Trainee 4
 
 */
+
+
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class TraineeStrengthTest {
+public:
+    bool isValidInput(const vector<vector<int>>& strength) {
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                if (strength[i][j] < 1 || strength[i][j] > 200) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    vector<int> calculateAverages(const vector<vector<int>>& strength) {
+        vector<int> averages(4);
+        for (int i = 0; i < 4; ++i) {
+            int sum = 0;
+            for (int j = 0; j < 3; ++j) {
+                sum += strength[i][j];
+            }
+            averages[i] = round(sum / 3.0);
+        }
+        return averages;
+    }
+
+    int findMaxAverage(const vector<int>& averages) {
+        return *max_element(averages.begin(), averages.end());
+    }
+
+    bool allUnfit(const vector<int>& averages) {
+        for (int avg : averages) {
+            if (avg >= 100) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    void printStrongestTrainees(const vector<int>& averages, int maxAverage) {
+        bool found = false;
+        for (int i = 0; i < 4; ++i) {
+            if (averages[i] == maxAverage) {
+                cout << "Trainee Number : " << i + 1 << endl;
+                found = true;
+            }
+        }
+        if (!found) {
+            cout << "All trainees are unfit." << endl;
+        }
+    }
+
+    void evaluateTrainees() {
+        vector<vector<int>> strength(4, vector<int>(3));
+
+        
+        for (int round = 0; round < 3; ++round) {
+            
+            for (int trainee = 0; trainee < 4; ++trainee) {
+                cin >> strength[trainee][round];
+            }
+        }
+
+        if (!isValidInput(strength)) {
+            cout << "INVALID INPUT" << endl;
+            return;
+        }
+
+        vector<int> averages = calculateAverages(strength);
+        int maxAverage = findMaxAverage(averages);
+
+        if (allUnfit(averages)) {
+            cout << "All trainees are unfit." << endl;
+            return;
+        }
+
+        printStrongestTrainees(averages, maxAverage);
+    }
+};
+
+int main() {
+    TraineeStrengthTest test;
+    test.evaluateTrainees();
+    return 0;
+}
