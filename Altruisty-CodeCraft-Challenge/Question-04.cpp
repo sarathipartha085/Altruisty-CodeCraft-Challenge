@@ -53,3 +53,45 @@ Constraints:
 \(C[i] \) = {a-z} or {A-Z}
 
 */
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string firstOddOccurrenceFlavour(int N, const vector<string>& C) {
+        unordered_map<string, int> flavourCount;
+        
+        for (const string& flavour : C) {
+            flavourCount[flavour]++;
+        }
+        
+        for (const string& flavour : C) {
+            if (flavourCount[flavour] % 2 != 0) {
+                return flavour;
+            }
+        }
+        
+        return "All are even";
+    }
+};
+
+int main() {
+    int N;
+    cin >> N; 
+    vector<string> C(N);
+    
+    for (int i = 0; i < N; ++i) {
+        cin >> C[i];
+    }
+    
+    Solution solution;
+    string result = solution.firstOddOccurrenceFlavour(N, C);
+    cout << result << endl;
+
+    return 0;
+}
