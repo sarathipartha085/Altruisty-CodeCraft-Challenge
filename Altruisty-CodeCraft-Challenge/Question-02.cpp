@@ -51,3 +51,90 @@ The substring from index \(1\) to index \(5\) is "`|*|*|`". There is exactly 1 b
 
 */
 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class BeeFlowerCounter {
+private:
+    string s;
+    vector<int> prefix_bees;
+
+public:
+    BeeFlowerCounter(const string& str) {
+        s = str;
+        int n = s.size();
+        prefix_bees.resize(n + 1, 0);
+        preprocessPrefixBees();
+    }
+
+    void preprocessPrefixBees() {
+        for (int i = 1; i <= s.size(); ++i) {
+            prefix_bees[i] = prefix_bees[i - 1] + (s[i - 1] == '*' ? 1 : 0);
+        }
+    }
+
+    int countBeesInRange(int start, int end) {
+        int left_flower = -1;
+        for (int i = start; i <= end; ++i) {
+            if (s[i] == '|') {
+                left_flower = i;
+                break;
+            }
+        }
+
+        int right_flower = -1;
+        for (int i = end; i >= start; --i) {
+            if (s[i] == '|') {
+                right_flower = i;
+                break;
+            }
+        }
+
+        if (left_flower != -1 && right_flower != -1 && left_flower < right_flower) {
+            return prefix_bees[right_flower + 1] - prefix_bees[left_flower];
+        }
+        return 0;  // No valid range between flowers
+    }
+
+    vector<int> getBeesBetweenFlowers(const vector<int>& startIndex, const vector<int>& endIndex) {
+        vector<int> result;
+        int q = startIndex.size();
+        for (int i = 0; i < q; ++i) {
+            int start = startIndex[i] - 1;
+            int end = endIndex[i] - 1;
+            result.push_back(countBeesInRange(start, end));
+        }
+        return result;
+    }
+};
+
+int main() {
+    string s;
+    cin >> s;
+
+    int n;
+    cin >> n;
+
+    vector<int> startIndex(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> startIndex[i];
+    }
+
+    vector<int> endIndex(n);
+    for (int i = 0; i < n; ++i) {
+        cin >> endIndex[i];
+    }
+
+    BeeFlowerCounter counter(s);
+    vector<int> result = counter.getBeesBetweenFlowers(startIndex, endIndex);
+
+    for (int res : result) {
+        cout << res << endl;
+    }
+
+    return 0;
+}
+
