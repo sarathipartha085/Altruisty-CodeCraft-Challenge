@@ -3,7 +3,7 @@
 I participated in the **Altruisty CodeCraft Challenge 2024**, an exciting online event where developers and designers came together to showcase their skills and creativity.
 
 #### Key Details:
-- **Date**: 11th November 2024 (Sunday)
+- **Date**: 10th November 2024 (Sunday)
 - **Format**: Online
 - **Deadline**: Submissions closed at 11:30 PM on the same day
 - **Challenge Focus**: 
